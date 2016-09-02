@@ -1,7 +1,7 @@
 Testing MySQL transaction isolation levels
 ==========================================
 
-These tests were run with MySQL 5.6.21.
+These tests were run with MySQL 5.6.27.
 
 Setup (before every test case):
 
