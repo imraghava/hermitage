@@ -28,27 +28,12 @@ cause application bugs. The precise definitions of these anomalies are given in 
 (see below for details).
 
 | DBMS          | So-called isolation level    | Actual isolation level | G0 | G1a | G1b | G1c | OTV | PMP | P4 | G-single | G2-item | G2   |
-|:--------------|:-----------------------------|:-----------------------|:--:|:---:|:---:|:---:|:---:|:---:|:--:|:--------:|:-------:|:----:|
-| PostgreSQL    | "read committed" ★           | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               | "repeatable read"            | snapshot isolation     | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | —       | —    |
-|               | "serializable"               | serializable           | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | ✓       | ✓    |
-|               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| MySQL/InnoDB  | "read uncommitted"           | read uncommitted       | ✓  | —   | —   | —   | —   | —   | —  | —        | —       | —    |
-|               | "read committed"             | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
+| MySQL/InnoDB  | "read committed"             | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
 |               | "repeatable read" ★          | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | R/O | —  | R/O      | —       | —    |
 |               | "serializable"               | serializable           | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | ✓       | ✓    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| Oracle DB     | "read committed" ★           | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               | "serializable"               | snapshot isolation     | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | —       | some |
+| MySQL/RocksDB | "repeatable read" ★          | ??? | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| MS SQL Server | "read uncommitted"           | read uncommitted       | ✓  | —   | —   | —   | —   | —   | —  | —        | —       | —    |
-|               | "read committed" (locking) ★ | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               | "read committed" (snapshot)  | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               | "repeatable read"            | repeatable read        | ✓  | ✓   | ✓   | ✓   | ✓   | —   | ✓  | some     | ✓       | —    |
-|               | "snapshot"                   | snapshot isolation     | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | —       | —    |
-|               | "serializable"               | serializable           | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | ✓       | ✓    |
-|               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| FDB SQL Layer | "serializable" ★             | serializable           | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | ✓       | ✓    |
 
 Legend:
 
