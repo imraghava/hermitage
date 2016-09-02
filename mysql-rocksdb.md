@@ -44,7 +44,7 @@ commit; -- T2
 Read Skew (G-single)
 --------------------
 
-MySQL "repeatable read" prevents Read Skew (G-single) on a read-only transaction:
+MyRocks "repeatable read" prevents Read Skew (G-single) on a read-only transaction:
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
@@ -59,7 +59,7 @@ select * from test where id = 2; -- T1. Shows 2 => 20
 commit; -- T1
 ```
 
-MySQL "repeatable read" prevents Read Skew (G-single) -- test using predicate dependencies:
+MyRocks "repeatable read" prevents Read Skew (G-single) -- test using predicate dependencies:
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
@@ -71,7 +71,7 @@ select * from test where value % 3 = 0; -- T1. Returns nothing
 commit; -- T1
 ```
 
-MySQL "repeatable read" does not prevent Read Skew (G-single) on a write predicate:
+MyRocks "repeatable read" does prevent (???) Read Skew (G-single) on a write predicate:
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
@@ -81,9 +81,8 @@ select * from test; -- T2
 update test set value = 12 where id = 1; -- T2
 update test set value = 18 where id = 2; -- T2
 commit; -- T2
-delete from test where value = 20; -- T1. Doesn't delete anything
-select * from test where id = 2;   -- T1. Shows 2 => 20
-commit; -- T1
+delete from test where value = 20; -- T1. Fails ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction
+
 ```
 
 
@@ -91,7 +90,7 @@ commit; -- T1
 Write Skew (G2-item)
 --------------------
 
-MySQL "repeatable read" does not prevent Write Skew (G2-item):
+MyRocks "repeatable read" does not prevent Write Skew (G2-item):
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
