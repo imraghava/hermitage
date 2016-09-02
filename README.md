@@ -33,7 +33,7 @@ cause application bugs. The precise definitions of these anomalies are given in 
 |               | "repeatable read" ★          | monotonic atomic views | R/O | —  | R/O      | —       | —    |
 |               | "serializable"               | serializable           | ✓   | ✓  | ✓        | ✓       | ✓    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| MySQL/RocksDB | "repeatable read" ★          | ??? | NT   | ✓  | ✓        | —       | —    |
+| MySQL/RocksDB | "repeatable read" ★          | ??? | W/O   | ✓  | ✓        | —       | —    |
 |               |                              |                        |       |    |          |         |      |
 
 Legend:
@@ -43,6 +43,7 @@ Legend:
 * — = isolation level does not prevent this anomaly, so it can occur
 * R/O = isolation level prevents this anomaly in a read-only context, but when you perform writes,
   the anomaly can occur (see test cases for details)
+* W/O = prevented only on write-only context
 * some = isolation level prevents this anomaly in some cases, but not in others (see test cases for details)
 * NT - not tested
 
