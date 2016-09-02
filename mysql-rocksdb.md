@@ -20,7 +20,7 @@ select @@tx_isolation;
 Predicate-Many-Preceders (PMP)
 ------------------------------
 
-MyRocks "repeatable read" DOES NOT prevent Predicate-Many-Preceders (PMP) for read predicates:
+MyRocks "repeatable read" prevents Predicate-Many-Preceders (PMP) for read predicates:
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
@@ -28,7 +28,7 @@ set session transaction isolation level repeatable read; begin; -- T2
 select * from test where value = 30; -- T1. Returns nothing
 insert into test (id, value) values(3, 30); -- T2
 commit; -- T2
-select * from test where value % 3 = 0; -- T1. !!! returns |  3 |    30 |
+select * from test where value % 3 = 0; -- T1. Still returns nothing
 commit; -- T1
 ```
 
