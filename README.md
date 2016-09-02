@@ -27,13 +27,13 @@ which can occur when multiple clients are executing transactions at the same tim
 cause application bugs. The precise definitions of these anomalies are given in the literature
 (see below for details).
 
-| DBMS          | So-called isolation level    | Actual isolation level | PMP | P4 | G-single | G2-item | G2   |
+| DBMS          | So-called isolation level    | Actual isolation level | PMP | Lost Update (P4) | Read Skew (G-single) | Write Skew (G2-item) | G2   |
 |:--------------|:-----------------------------|:-----------------------|:---:|:--:|:--------:|:-------:|:----:|
 | MySQL/InnoDB  | "read committed"             | monotonic atomic views | —   | —  | —        | —       | —    |
 |               | "repeatable read" ★          | monotonic atomic views | R/O | —  | R/O      | —       | —    |
 |               | "serializable"               | serializable           | ✓   | ✓  | ✓        | ✓       | ✓    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| MySQL/RocksDB | "repeatable read" ★          | ??? | —   | —  | —        | —       | —    |
+| MySQL/RocksDB | "repeatable read" ★          | ??? | NT   | ✓  | ✓        | —       | —    |
 |               |                              |                        |       |    |          |         |      |
 
 Legend:
@@ -44,7 +44,7 @@ Legend:
 * R/O = isolation level prevents this anomaly in a read-only context, but when you perform writes,
   the anomaly can occur (see test cases for details)
 * some = isolation level prevents this anomaly in some cases, but not in others (see test cases for details)
-
+* NT - not tested
 
 Background
 ----------
