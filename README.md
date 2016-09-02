@@ -27,13 +27,14 @@ which can occur when multiple clients are executing transactions at the same tim
 cause application bugs. The precise definitions of these anomalies are given in the literature
 (see below for details).
 
-| DBMS          | So-called isolation level    | Actual isolation level | G0 | G1a | G1b | G1c | OTV | PMP | P4 | G-single | G2-item | G2   |
-| MySQL/InnoDB  | "read committed"             | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               | "repeatable read" ★          | monotonic atomic views | ✓  | ✓   | ✓   | ✓   | ✓   | R/O | —  | R/O      | —       | —    |
-|               | "serializable"               | serializable           | ✓  | ✓   | ✓   | ✓   | ✓   | ✓   | ✓  | ✓        | ✓       | ✓    |
+| DBMS          | So-called isolation level    | Actual isolation level | PMP | P4 | G-single | G2-item | G2   |
+|:--------------|:-----------------------------|:-----------------------|:---:|:--:|:--------:|:-------:|:----:|
+| MySQL/InnoDB  | "read committed"             | monotonic atomic views | —   | —  | —        | —       | —    |
+|               | "repeatable read" ★          | monotonic atomic views | R/O | —  | R/O      | —       | —    |
+|               | "serializable"               | serializable           | ✓   | ✓  | ✓        | ✓       | ✓    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
-| MySQL/RocksDB | "repeatable read" ★          | ??? | ✓  | ✓   | ✓   | ✓   | ✓   | —   | —  | —        | —       | —    |
-|               |                              |                        |    |     |     |     |     |     |    |          |         |      |
+| MySQL/RocksDB | "repeatable read" ★          | ??? | —   | —  | —        | —       | —    |
+|               |                              |                        |       |    |          |         |      |
 
 Legend:
 
