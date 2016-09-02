@@ -32,7 +32,7 @@ select * from test where value % 3 = 0; -- T1. Still returns nothing
 commit; -- T1
 ```
 
-TokuDB "repeatable read" doesprevent Predicate-Many-Preceders (PMP) for write predicates -- example from Postgres documentation:
+TokuDB "repeatable read" prevents Predicate-Many-Preceders (PMP) for write predicates -- example from Postgres documentation:
 
 ```sql
 set session transaction isolation level repeatable read; begin; -- T1
