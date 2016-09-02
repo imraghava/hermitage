@@ -33,6 +33,7 @@ cause application bugs. The precise definitions of these anomalies are given in 
 |               | "repeatable read" ★          | monotonic atomic views | R/O | —  | R/O      | —       | —    |
 |               | "serializable"               | serializable           | ✓   | ✓  | ✓        | ✓       | ✓    |
 |               |                              |                        |    |     |     |     |     |     |    |          |         |      |
+| MySQL/TokuDB | "repeatable read" ★          | monotonic atomic views | ✓   | ✓  | R/O       | —       | —    |
 | MySQL/RocksDB | "repeatable read" ★          | snapshot isolation (if PMP fixed) | W/O   | ✓  | ✓        | —       | —    |
 |               |                              |                        |       |    |          |         |      |
 
