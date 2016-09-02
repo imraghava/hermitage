@@ -20,8 +20,27 @@ select @@tx_isolation;
 Predicate-Many-Preceders (PMP)
 ------------------------------
 
-Not tested
+MyRocks "repeatable read" DOES NOT prevent Predicate-Many-Preceders (PMP) for read predicates:
 
+```sql
+set session transaction isolation level repeatable read; begin; -- T1
+set session transaction isolation level repeatable read; begin; -- T2
+select * from test where value = 30; -- T1. Returns nothing
+insert into test (id, value) values(3, 30); -- T2
+commit; -- T2
+select * from test where value % 3 = 0; -- T1. !!! returns |  3 |    30 |
+commit; -- T1
+```
+
+MyRocks "repeatable read" does prevent Predicate-Many-Preceders (PMP) for write predicates -- example from Postgres documentation:
+
+```sql
+set session transaction isolation level repeatable read; begin; -- T1
+set session transaction isolation level repeatable read; begin; -- T2
+update test set value = value + 10; -- T1
+select * from test where value = 20; -- T2. Returns 2 => 20
+delete from test where value = 20;  -- T2, Fails ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction: Timeout on index: t1.test.PRIMARY
+```
 
 Lost Update (P4)
 ----------------
